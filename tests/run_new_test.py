@@ -30,7 +30,7 @@ if os.path.exists('.pytest_cache'):
 
 # 7. Define pytest options
 pytest_options = ["--cache-clear", "-v", "-s", "--lf"]
-
+#pytest_options = ["--cache-clear", "-v", "-s", "--ff"] first run failed tests and after again will run remaining tests
 # 8. Run pytest with the specified options and ensure fresh results
 retcode = pytest.main(pytest_options)
 
