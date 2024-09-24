@@ -1,0 +1,39 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "destinationdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Col1",
+				"type": "String"
+			},
+			{
+				"name": "Col2",
+				"type": "String"
+			},
+			{
+				"name": "Col3",
+				"type": "String"
+			},
+			{
+				"name": "Exp_output",
+				"type": "String"
+			}
+		]
+	}
+}
