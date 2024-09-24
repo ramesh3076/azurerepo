@@ -1,0 +1,40 @@
+{
+	"name": "sourcedata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "testing_data.csv",
+				"fileSystem": "sourcedata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Col1",
+				"type": "String"
+			},
+			{
+				"name": "Col2",
+				"type": "String"
+			},
+			{
+				"name": "Col3",
+				"type": "String"
+			},
+			{
+				"name": "Exp_output",
+				"type": "String"
+			}
+		]
+	}
+}
