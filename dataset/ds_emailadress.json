@@ -1,0 +1,45 @@
+{
+	"name": "ds_emailadress",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "metadata"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SystemCode",
+				"type": "varchar"
+			},
+			{
+				"name": "DatasetName",
+				"type": "varchar"
+			},
+			{
+				"name": "SystemInfoID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FirstName",
+				"type": "varchar"
+			},
+			{
+				"name": "LastName",
+				"type": "varchar"
+			},
+			{
+				"name": "EmailAddress",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EmailRecipients"
+		}
+	}
+}
