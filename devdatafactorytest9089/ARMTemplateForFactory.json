@@ -184,6 +184,196 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_to_datalake')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ingest Webstore Online Sales Data into Data Lake ",
+				"activities": [
+					{
+						"name": "copydataonline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_Online_Sales_Json",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_dl_online_sales_Json",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Online_Sales_Json')]",
+				"[concat(variables('factoryId'), '/datasets/DS_dl_online_sales_Json')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_Online_Sales_Json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "webstore"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "onlinesales.json",
+						"folderPath": "test",
+						"fileSystem": "dbfscontainer"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"SalesOrderNumber": {
+							"type": "string"
+						},
+						"SalesOrderLineNumber": {
+							"type": "integer"
+						},
+						"RevisionNumber": {
+							"type": "integer"
+						},
+						"OrderQuantity": {
+							"type": "integer"
+						},
+						"ProductCode": {
+							"type": "string"
+						},
+						"PromotionsCode": {
+							"type": "integer"
+						},
+						"CurrencyCode": {
+							"type": "string"
+						},
+						"UnitPrice": {
+							"type": "number"
+						},
+						"ExtendedAmount": {
+							"type": "number"
+						},
+						"UnitPriceDiscountPct": {
+							"type": "number"
+						},
+						"DiscountAmount": {
+							"type": "number"
+						},
+						"ProductStandardCost": {
+							"type": "number"
+						},
+						"TotalProductCost": {
+							"type": "number"
+						},
+						"SalesAmount": {
+							"type": "number"
+						},
+						"TaxAmt": {
+							"type": "number"
+						},
+						"Freight": {
+							"type": "number"
+						},
+						"CustomerCode": {
+							"type": "string"
+						},
+						"Region": {
+							"type": "string"
+						},
+						"Country": {
+							"type": "string"
+						},
+						"OrderDate": {
+							"type": "string"
+						},
+						"DueDate": {
+							"type": "string"
+						},
+						"ShipDate": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_dl_online_sales_Json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "webstore/raw/onlinesales",
+						"fileSystem": "dbfscontainer"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
 		}
 	]
 }
