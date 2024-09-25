@@ -1,0 +1,93 @@
+{
+	"name": "DS_Online_Sales_Json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "webstore"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "onlinesales.json",
+				"folderPath": "test",
+				"fileSystem": "dbfscontainer"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"SalesOrderNumber": {
+					"type": "string"
+				},
+				"SalesOrderLineNumber": {
+					"type": "integer"
+				},
+				"RevisionNumber": {
+					"type": "integer"
+				},
+				"OrderQuantity": {
+					"type": "integer"
+				},
+				"ProductCode": {
+					"type": "string"
+				},
+				"PromotionsCode": {
+					"type": "integer"
+				},
+				"CurrencyCode": {
+					"type": "string"
+				},
+				"UnitPrice": {
+					"type": "number"
+				},
+				"ExtendedAmount": {
+					"type": "number"
+				},
+				"UnitPriceDiscountPct": {
+					"type": "number"
+				},
+				"DiscountAmount": {
+					"type": "number"
+				},
+				"ProductStandardCost": {
+					"type": "number"
+				},
+				"TotalProductCost": {
+					"type": "number"
+				},
+				"SalesAmount": {
+					"type": "number"
+				},
+				"TaxAmt": {
+					"type": "number"
+				},
+				"Freight": {
+					"type": "number"
+				},
+				"CustomerCode": {
+					"type": "string"
+				},
+				"Region": {
+					"type": "string"
+				},
+				"Country": {
+					"type": "string"
+				},
+				"OrderDate": {
+					"type": "string"
+				},
+				"DueDate": {
+					"type": "string"
+				},
+				"ShipDate": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
