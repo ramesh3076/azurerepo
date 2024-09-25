@@ -229,14 +229,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_Online_Sales_Json",
+								"referenceName": "DS_Online_adls_Sales_Json",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_dl_online_sales_Json",
+								"referenceName": "DSdls_dataengineer_sales_Json",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -249,12 +249,12 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_Online_Sales_Json')]",
-				"[concat(variables('factoryId'), '/datasets/DS_dl_online_sales_Json')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Online_adls_Sales_Json')]",
+				"[concat(variables('factoryId'), '/datasets/DSdls_dataengineer_sales_Json')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_Online_Sales_Json')]",
+			"name": "[concat(parameters('factoryName'), '/DS_Online_adls_Sales_Json')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -352,13 +352,16 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_dl_online_sales_Json')]",
+			"name": "[concat(parameters('factoryName'), '/DSdls_dataengineer_sales_Json')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "AzureDataLakeStorage1",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "webstore"
 				},
 				"annotations": [],
 				"type": "Json",
