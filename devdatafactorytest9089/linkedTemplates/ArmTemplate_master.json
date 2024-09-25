@@ -11,9 +11,25 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
+		"LS_Azure_sql_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_Azure_sql'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sourcestorager.dfs.core.windows.net/"
+		},
+		"LS_Azure_sql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "metadataservertest2.database.windows.net"
+		},
+		"LS_Azure_sql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "metadata_db"
+		},
+		"LS_Azure_sql_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ramesh"
 		},
 		"containerUri": {
 			"type": "string",
@@ -45,8 +61,20 @@
 					"AzureDataLakeStorage1_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
 					},
+					"LS_Azure_sql_password": {
+						"value": "[parameters('LS_Azure_sql_password')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"LS_Azure_sql_properties_typeProperties_server": {
+						"value": "[parameters('LS_Azure_sql_properties_typeProperties_server')]"
+					},
+					"LS_Azure_sql_properties_typeProperties_database": {
+						"value": "[parameters('LS_Azure_sql_properties_typeProperties_database')]"
+					},
+					"LS_Azure_sql_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Azure_sql_properties_typeProperties_userName')]"
 					}
 				}
 			},

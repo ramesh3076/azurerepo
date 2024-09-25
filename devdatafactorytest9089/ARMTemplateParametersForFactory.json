@@ -8,8 +8,20 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"LS_Azure_sql_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://sourcestorager.dfs.core.windows.net/"
+		},
+		"LS_Azure_sql_properties_typeProperties_server": {
+			"value": "metadataservertest2.database.windows.net"
+		},
+		"LS_Azure_sql_properties_typeProperties_database": {
+			"value": "metadata_db"
+		},
+		"LS_Azure_sql_properties_typeProperties_userName": {
+			"value": "Ramesh"
 		}
 	}
 }
