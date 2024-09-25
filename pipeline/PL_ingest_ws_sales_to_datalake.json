@@ -40,13 +40,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_Online_Sales_Json",
+						"referenceName": "DS_Online_adls_Sales_Json",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_dl_online_sales_Json",
+						"referenceName": "DSdls_dataengineer_sales_Json",
 						"type": "DatasetReference"
 					}
 				]

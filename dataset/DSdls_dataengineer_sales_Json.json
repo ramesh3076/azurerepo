@@ -1,9 +1,12 @@
 {
-	"name": "DS_dl_online_sales_Json",
+	"name": "DSdls_dataengineer_sales_Json",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "webstore"
 		},
 		"annotations": [],
 		"type": "Json",
