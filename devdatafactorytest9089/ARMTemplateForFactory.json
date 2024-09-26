@@ -237,7 +237,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_end_to_end_email')]",
+			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_end_to_end_email_log_working')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
