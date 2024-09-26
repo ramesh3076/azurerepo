@@ -1,5 +1,5 @@
 {
-	"name": "PL_ingest_ws_sales_email_v4",
+	"name": "PL_ingest_ws_sales_end_to_end_email",
 	"properties": {
 		"description": "Ingest Webstore Online Sales Data into Data Lake ",
 		"activities": [
@@ -56,7 +56,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "copydataonline",
+						"activity": "Log",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -68,7 +68,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_send_email_notificcation",
+						"referenceName": "PL_send_email_notificcation_copy1",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
@@ -83,6 +83,95 @@
 						}
 					}
 				}
+			},
+			{
+				"name": "Log",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "copydataonline",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[InsertPipelineLog]",
+					"storedProcedureParameters": {
+						"EndTime": {
+							"value": {
+								"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"PipelineID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PipelineName": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"RunID": {
+							"value": {
+								"value": "@pipeline().parameters.runID",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"SnapshotDate": {
+							"value": {
+								"value": "@formatDateTime(pipeline().parameters.snapshotDate,'yyyy-MM-dd')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"SourceToTargetID": {
+							"value": {
+								"value": "2",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"StartTime": {
+							"value": {
+								"value": "@convertFromUtc(pipeline().TriggerTime,'GMT Standard Time')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"Status": {
+							"value": {
+								"value": "Success ",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"UpdateAt": {
+							"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_Azure_sql",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
@@ -93,6 +182,14 @@
 			"DatasetName": {
 				"type": "string",
 				"defaultValue": "Sales"
+			},
+			"runID": {
+				"type": "string",
+				"defaultValue": "1"
+			},
+			"snapshotDate": {
+				"type": "string",
+				"defaultValue": "2021-07-11"
 			}
 		},
 		"annotations": []
