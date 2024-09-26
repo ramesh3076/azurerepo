@@ -15,7 +15,118 @@
 					},
 					"cases": [
 						{
-							"value": "Success"
+							"value": "Success",
+							"activities": [
+								{
+									"name": "PL_status_success_message",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_send_email_notificcation_copy1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Systemcode": {
+												"value": "@pipeline().parameters.systemCode",
+												"type": "Expression"
+											},
+											"datasetName": {
+												"value": "@pipeline().parameters.datasetName",
+												"type": "Expression"
+											},
+											"subject": {
+												"value": "@concat('ADF Pipeline:',pipeline().parameters.tiggeredPipeline)",
+												"type": "Expression"
+											},
+											"message": {
+												"value": "@concat(pipeline().parameters.tiggeredPipeline, 'has completed successfully')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "Failed",
+							"activities": [
+								{
+									"name": "PL_status_failed_message",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_send_email_notificcation_copy1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Systemcode": {
+												"value": "@pipeline().parameters.systemCode",
+												"type": "Expression"
+											},
+											"datasetName": {
+												"value": "@pipeline().parameters.datasetName",
+												"type": "Expression"
+											},
+											"subject": {
+												"value": "@concat('ADF Pipeline:',pipeline().parameters.tiggeredPipeline)",
+												"type": "Expression"
+											},
+											"message": {
+												"value": "@concat(pipeline().parameters.tiggeredPipeline, 'has failed please check ')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "PL_status_default",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_send_email_notificcation_copy1",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"Systemcode": {
+										"value": "@pipeline().parameters.systemCode",
+										"type": "Expression"
+									},
+									"datasetName": {
+										"value": "@pipeline().parameters.datasetName",
+										"type": "Expression"
+									},
+									"subject": {
+										"value": "@concat('ADF Pipeline:',pipeline().parameters.tiggeredPipeline)",
+										"type": "Expression"
+									},
+									"message": {
+										"value": "@concat(pipeline().parameters.tiggeredPipeline, 'has no valied status:',pipeline().parameters.status,'expecting failed or success')",
+										"type": "Expression"
+									}
+								}
+							}
 						}
 					]
 				}
