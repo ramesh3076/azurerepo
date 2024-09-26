@@ -37,7 +37,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_email_v2')]",
+			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_email_v2_notworking')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -367,7 +367,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Getemailaddress').output",
+								"value": "@activity('Getemailaddress').output.value",
 								"type": "Expression"
 							},
 							"isSequential": false,
@@ -782,6 +782,118 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_email_v4')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ingest Webstore Online Sales Data into Data Lake ",
+				"activities": [
+					{
+						"name": "copydataonline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_Online_adls_Sales_Json",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DSdls_dataengineer_sales_Json",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "sendemailnotification",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "copydataonline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_send_email_notificcation",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Systemcode": {
+									"value": "@pipeline().parameters.SystemCode",
+									"type": "Expression"
+								},
+								"datasetName": {
+									"value": "@pipeline().parameters.DatasetName",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"SystemCode": {
+						"type": "string",
+						"defaultValue": "OWS"
+					},
+					"DatasetName": {
+						"type": "string",
+						"defaultValue": "Sales"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Online_adls_Sales_Json')]",
+				"[concat(variables('factoryId'), '/datasets/DSdls_dataengineer_sales_Json')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_send_email_notificcation')]"
+			]
 		}
 	]
 }
