@@ -1,5 +1,5 @@
 {
-	"name": "PL_ingest_ws_sales_end_to_end_email",
+	"name": "PL_ingest_ws_sales_end_to_end_email_log_working",
 	"properties": {
 		"description": "Ingest Webstore Online Sales Data into Data Lake ",
 		"activities": [
@@ -163,7 +163,10 @@
 							"type": "String"
 						},
 						"UpdateAt": {
-							"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+							"value": {
+								"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+								"type": "Expression"
+							},
 							"type": "DateTime"
 						}
 					}
