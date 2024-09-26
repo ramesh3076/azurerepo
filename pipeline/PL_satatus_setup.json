@@ -1,0 +1,40 @@
+{
+	"name": "PL_satatus_setup",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch Status",
+				"description": "success or failure ",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.status",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "Success"
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"status": {
+				"type": "string"
+			},
+			"tiggeredPipeline": {
+				"type": "string"
+			},
+			"systemCode": {
+				"type": "string"
+			},
+			"datasetName": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
