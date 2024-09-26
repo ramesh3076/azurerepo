@@ -58,11 +58,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Getemailaddress').output",
+						"value": "@activity('Getemailaddress').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
-					"batchCount": 2,
 					"activities": [
 						{
 							"name": "Web",
