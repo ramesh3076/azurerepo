@@ -405,7 +405,10 @@
 									"type": "String"
 								},
 								"UpdateAt": {
-									"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+									"value": {
+										"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+										"type": "Expression"
+									},
 									"type": "DateTime"
 								}
 							}
@@ -512,6 +515,165 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_Online_adls_Sales_Json')]",
 				"[concat(variables('factoryId'), '/datasets/DSdls_dataengineer_sales_Json')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_satatus_setup')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Switch Status",
+						"description": "success or failure ",
+						"type": "Switch",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"on": {
+								"value": "@pipeline().parameters.status",
+								"type": "Expression"
+							},
+							"cases": [
+								{
+									"value": "Success",
+									"activities": [
+										{
+											"name": "PL_status_success_message",
+											"type": "ExecutePipeline",
+											"dependsOn": [],
+											"policy": {
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"pipeline": {
+													"referenceName": "PL_send_email_notificcation_copy1",
+													"type": "PipelineReference"
+												},
+												"waitOnCompletion": true,
+												"parameters": {
+													"Systemcode": {
+														"value": "@pipeline().parameters.systemCode",
+														"type": "Expression"
+													},
+													"datasetName": {
+														"value": "@pipeline().parameters.datasetName",
+														"type": "Expression"
+													},
+													"subject": {
+														"value": "@concat('ADF Pipeline:',pipeline().parameters.tiggeredPipeline)",
+														"type": "Expression"
+													},
+													"message": {
+														"value": "@concat(pipeline().parameters.tiggeredPipeline, 'has completed successfully')",
+														"type": "Expression"
+													}
+												}
+											}
+										}
+									]
+								},
+								{
+									"value": "Failed",
+									"activities": [
+										{
+											"name": "PL_status_failed_message",
+											"type": "ExecutePipeline",
+											"dependsOn": [],
+											"policy": {
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"pipeline": {
+													"referenceName": "PL_send_email_notificcation_copy1",
+													"type": "PipelineReference"
+												},
+												"waitOnCompletion": true,
+												"parameters": {
+													"Systemcode": {
+														"value": "@pipeline().parameters.systemCode",
+														"type": "Expression"
+													},
+													"datasetName": {
+														"value": "@pipeline().parameters.datasetName",
+														"type": "Expression"
+													},
+													"subject": {
+														"value": "@concat('ADF Pipeline:',pipeline().parameters.tiggeredPipeline)",
+														"type": "Expression"
+													},
+													"message": {
+														"value": "@concat(pipeline().parameters.tiggeredPipeline, 'has failed please check ')",
+														"type": "Expression"
+													}
+												}
+											}
+										}
+									]
+								}
+							],
+							"defaultActivities": [
+								{
+									"name": "PL_status_default",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_send_email_notificcation_copy1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Systemcode": {
+												"value": "@pipeline().parameters.systemCode",
+												"type": "Expression"
+											},
+											"datasetName": {
+												"value": "@pipeline().parameters.datasetName",
+												"type": "Expression"
+											},
+											"subject": {
+												"value": "@concat('ADF Pipeline:',pipeline().parameters.tiggeredPipeline)",
+												"type": "Expression"
+											},
+											"message": {
+												"value": "@concat(pipeline().parameters.tiggeredPipeline, 'has no valied status:',pipeline().parameters.status,'expecting failed or success')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"status": {
+						"type": "string"
+					},
+					"tiggeredPipeline": {
+						"type": "string"
+					},
+					"systemCode": {
+						"type": "string"
+					},
+					"datasetName": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_send_email_notificcation_copy1')]"
 			]
 		},
 		{
@@ -622,6 +784,128 @@
 					"datasetName": {
 						"type": "string",
 						"defaultValue": "Sales"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_emailadress')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_send_email_notificcation_copy1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Getemailaddress",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[GetEmailAddresses]",
+								"storedProcedureParameters": {
+									"DatasetName": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.datasetName",
+											"type": "Expression"
+										}
+									},
+									"SystemCode": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.Systemcode",
+											"type": "Expression"
+										}
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_emailadress",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Getemailaddress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Getemailaddress').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "Web",
+									"description": "send email notification",
+									"type": "WebActivity",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"method": "POST",
+										"headers": {
+											"contenttype": "application/json"
+										},
+										"url": "https://prod-17.uksouth.logic.azure.com:443/workflows/06483281ef574381ad5bf08e7bf989b2/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=T0suCJNdfZzE8WHWWUZd9REa2HJzSnLEHBB1-fZKZwk",
+										"body": {
+											"value": "@json(concat('{\"emailaddress\": \"', item().emailaddress, '\", \"subject\": \"',pipeline().parameters.subject,'\", \"messageBody\": \"',pipeline().parameters.message,'\"}'))",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"Systemcode": {
+						"type": "string",
+						"defaultValue": "OWS"
+					},
+					"datasetName": {
+						"type": "string",
+						"defaultValue": "Sales"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
 					}
 				},
 				"annotations": []
@@ -991,128 +1275,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_send_email_notificcation_copy1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Getemailaddress",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[dbo].[GetEmailAddresses]",
-								"storedProcedureParameters": {
-									"DatasetName": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.datasetName",
-											"type": "Expression"
-										}
-									},
-									"SystemCode": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.Systemcode",
-											"type": "Expression"
-										}
-									}
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ds_emailadress",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Getemailaddress",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Getemailaddress').output.value",
-								"type": "Expression"
-							},
-							"isSequential": false,
-							"activities": [
-								{
-									"name": "Web",
-									"description": "send email notification",
-									"type": "WebActivity",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"method": "POST",
-										"headers": {
-											"contenttype": "application/json"
-										},
-										"url": "https://prod-17.uksouth.logic.azure.com:443/workflows/06483281ef574381ad5bf08e7bf989b2/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=T0suCJNdfZzE8WHWWUZd9REa2HJzSnLEHBB1-fZKZwk",
-										"body": {
-											"value": "@json(concat('{\"emailaddress\": \"', item().emailaddress, '\", \"subject\": \"',pipeline().parameters.subject,'\", \"messageBody\": \"',pipeline().parameters.message,'\"}'))",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"Systemcode": {
-						"type": "string",
-						"defaultValue": "OWS"
-					},
-					"datasetName": {
-						"type": "string",
-						"defaultValue": "Sales"
-					},
-					"subject": {
-						"type": "string"
-					},
-					"message": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_emailadress')]"
-			]
 		}
 	]
 }
