@@ -62,7 +62,6 @@
 						"type": "Expression"
 					},
 					"isSequential": false,
-					"batchCount": 2,
 					"activities": [
 						{
 							"name": "Web",
