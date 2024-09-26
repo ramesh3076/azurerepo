@@ -893,6 +893,122 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_send_email_notificcation_copy1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Getemailaddress",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[GetEmailAddresses]",
+								"storedProcedureParameters": {
+									"DatasetName": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.datasetName",
+											"type": "Expression"
+										}
+									},
+									"SystemCode": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.Systemcode",
+											"type": "Expression"
+										}
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_emailadress",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Getemailaddress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Getemailaddress').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "Web",
+									"description": "send email notification",
+									"type": "WebActivity",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"method": "POST",
+										"headers": {
+											"contenttype": "application/json"
+										},
+										"url": "https://prod-17.uksouth.logic.azure.com:443/workflows/06483281ef574381ad5bf08e7bf989b2/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=T0suCJNdfZzE8WHWWUZd9REa2HJzSnLEHBB1-fZKZwk",
+										"body": {
+											"value": "@json(concat('{\"emailaddress\": \"', item().emailaddress, '\", \"subject\": \"Adf pipeline(PL_data)\", \"messageBody\": \"ingestion of web store data successfully\"}'))\n\n",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"Systemcode": {
+						"type": "string",
+						"defaultValue": "OWS"
+					},
+					"datasetName": {
+						"type": "string",
+						"defaultValue": "Sales"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_emailadress')]"
+			]
 		}
 	]
 }
