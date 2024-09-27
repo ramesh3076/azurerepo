@@ -1,5 +1,5 @@
 {
-	"name": "PL_ingest_ws_sales_email_v3",
+	"name": "PL4_ingest_ws_sales_email_v3",
 	"properties": {
 		"description": "Ingest Webstore Online Sales Data into Data Lake ",
 		"activities": [
