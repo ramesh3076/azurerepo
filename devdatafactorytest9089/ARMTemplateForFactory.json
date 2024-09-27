@@ -2872,7 +2872,7 @@
 													"type": "Expression"
 												},
 												"directory": {
-													"value": "@item().SourceReletivePathSchema\r\n",
+													"value": "@item().SourceRelativePathSchema\n",
 													"type": "Expression"
 												},
 												"fileName": {
