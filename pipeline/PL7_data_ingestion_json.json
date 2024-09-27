@@ -129,7 +129,7 @@
 						},
 						"sourcetoTargetID": "2",
 						"PipelineTiggerTime": {
-							"value": "@convertToUtc(pipeline().TriggerTime,'GMT Standard Time')",
+							"value": "@pipeline().TriggerTime",
 							"type": "Expression"
 						},
 						"PipelineID": {
