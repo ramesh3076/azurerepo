@@ -421,7 +421,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_email_v3')]",
+			"name": "[concat(parameters('factoryName'), '/PL4_ingest_ws_sales_email_v3')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -705,7 +705,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_send_email_notificcation_copy1')]",
+			"name": "[concat(parameters('factoryName'), '/PL1_send_email_notificcation_copy')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -905,7 +905,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_ingest_ws_sales_end_to_end_email_log_working')]",
+			"name": "[concat(parameters('factoryName'), '/PL5_ingest_ws_sales_end_to_end_email_log_working')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -978,7 +978,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_send_email_notificcation_copy1",
+								"referenceName": "PL1_send_email_notificcation_copy",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -1113,12 +1113,12 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_Online_adls_Sales_Json')]",
 				"[concat(variables('factoryId'), '/datasets/DSdls_dataengineer_sales_Json')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_send_email_notificcation_copy1')]",
+				"[concat(variables('factoryId'), '/pipelines/PL1_send_email_notificcation_copy')]",
 				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_satatus_setup')]",
+			"name": "[concat(parameters('factoryName'), '/PL3_satatus_setup')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1148,7 +1148,7 @@
 											"userProperties": [],
 											"typeProperties": {
 												"pipeline": {
-													"referenceName": "PL_send_email_notificcation_copy1",
+													"referenceName": "PL1_send_email_notificcation_copy",
 													"type": "PipelineReference"
 												},
 												"waitOnCompletion": true,
@@ -1187,7 +1187,7 @@
 											"userProperties": [],
 											"typeProperties": {
 												"pipeline": {
-													"referenceName": "PL_send_email_notificcation_copy1",
+													"referenceName": "PL1_send_email_notificcation_copy",
 													"type": "PipelineReference"
 												},
 												"waitOnCompletion": true,
@@ -1225,7 +1225,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "PL_send_email_notificcation_copy1",
+											"referenceName": "PL1_send_email_notificcation_copy",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
@@ -1273,7 +1273,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_send_email_notificcation_copy1')]"
+				"[concat(variables('factoryId'), '/pipelines/PL1_send_email_notificcation_copy')]"
 			]
 		}
 	]
