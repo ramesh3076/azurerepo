@@ -92,7 +92,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "onlinesales.json",
+						"fileName": "onlinesale.json",
 						"folderPath": "test",
 						"fileSystem": "dbfscontainer"
 					}
@@ -1641,7 +1641,7 @@
 								},
 								"sourcetoTargetID": "2",
 								"PipelineTiggerTime": {
-									"value": "@convertToUtc(pipeline().TriggerTime,'GMT Standard Time')",
+									"value": "@pipeline().TriggerName",
 									"type": "Expression"
 								},
 								"PipelineID": {
