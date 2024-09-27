@@ -96,7 +96,7 @@
 										"type": "JsonWriteSettings"
 									}
 								},
-								"enableStaging": false
+								"enableStaging": true
 							},
 							"inputs": [
 								{
