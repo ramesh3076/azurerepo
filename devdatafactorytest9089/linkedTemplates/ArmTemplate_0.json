@@ -1641,7 +1641,7 @@
 								},
 								"sourcetoTargetID": "2",
 								"PipelineTiggerTime": {
-									"value": "@pipeline().TriggerName",
+									"value": "@pipeline().TriggerTime",
 									"type": "Expression"
 								},
 								"PipelineID": {
