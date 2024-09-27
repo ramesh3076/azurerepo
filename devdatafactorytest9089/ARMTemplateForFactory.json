@@ -1628,7 +1628,7 @@
 							"waitOnCompletion": true,
 							"parameters": {
 								"snapshotDate": {
-									"value": "@formatDateTime(pipeline().parameters.snapshotDate,'yyy-MM-dd')",
+									"value": "@formatDateTime(pipeline().parameters.snapshotDate,'yyyy-MM-dd')",
 									"type": "Expression"
 								},
 								"status": {
