@@ -96,7 +96,13 @@
 										"type": "JsonWriteSettings"
 									}
 								},
-								"enableStaging": true
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "AzureDataLakeStorage1",
+										"type": "LinkedServiceReference"
+									}
+								}
 							},
 							"inputs": [
 								{
