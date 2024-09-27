@@ -1,0 +1,63 @@
+{
+	"name": "PL_orch_daily_batch_run",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup get batch details",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[dbo].[GetBatch]",
+						"storedProcedureParameters": {
+							"PFrequency": {
+								"type": "String",
+								"value": {
+									"value": "@variables('v_frequency')",
+									"type": "Expression"
+								}
+							},
+							"PSystemCode": {
+								"type": "String",
+								"value": {
+									"value": "@variables('v_sytemcode')",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_asql_batch_details",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"variables": {
+			"v_frequency": {
+				"type": "String",
+				"defaultValue": "DAILY"
+			},
+			"v_sytemcode": {
+				"type": "String",
+				"defaultValue": "OWS"
+			}
+		},
+		"folder": {
+			"name": "orchestration"
+		},
+		"annotations": []
+	}
+}
