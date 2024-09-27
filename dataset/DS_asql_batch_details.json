@@ -1,0 +1,89 @@
+{
+	"name": "DS_asql_batch_details",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "metadata"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SourceToTargetID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceSystemCode",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceSystem",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceDatasetName",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceDataObjectName",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceContainer",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceRelativePathSchema",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceTechnicalName",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetSystemCode",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetSystem",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetDatasetName",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetDataObjectName",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetContainer",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetRelativePathSchema",
+				"type": "varchar"
+			},
+			{
+				"name": "TargetTechnicalName",
+				"type": "varchar"
+			},
+			{
+				"name": "Stage",
+				"type": "varchar"
+			},
+			{
+				"name": "Status",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "BatchRun"
+		}
+	}
+}
