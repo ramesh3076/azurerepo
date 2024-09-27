@@ -1009,7 +1009,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "onlinesales.json",
+						"fileName": "onlinesale.json",
 						"folderPath": "test",
 						"fileSystem": "dbfscontainer"
 					}
