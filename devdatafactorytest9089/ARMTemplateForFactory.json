@@ -388,7 +388,13 @@
 												"type": "JsonWriteSettings"
 											}
 										},
-										"enableStaging": false
+										"enableStaging": true,
+										"stagingSettings": {
+											"linkedServiceName": {
+												"referenceName": "AzureDataLakeStorage1",
+												"type": "LinkedServiceReference"
+											}
+										}
 									},
 									"inputs": [
 										{
@@ -636,7 +642,8 @@
 				"[concat(variables('factoryId'), '/datasets/DS_AQL_source_tartget')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Online_adls_Sales_files_Json')]",
 				"[concat(variables('factoryId'), '/datasets/DSdls_dataengineer_folder_json')]",
-				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]"
+				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
 			]
 		},
 		{
