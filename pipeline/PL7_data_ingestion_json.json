@@ -110,7 +110,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL6_log_pipeline_metadata",
+						"referenceName": "PL6_log_pipeline_metadata1_old",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
@@ -168,7 +168,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL6_log_pipeline_metadata",
+						"referenceName": "PL6_log_pipeline_metadata1_old",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
