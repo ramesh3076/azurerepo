@@ -76,6 +76,100 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_AQL_source_tartget')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Azure_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "metadata"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SourceToTargetID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SourceSystemCode",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceSystem",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceDatasetName",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceDataObjectName",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceContainer",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceRelativePathSchema",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceTechnicalName",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetSystemCode",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetSystem",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetDatasetName",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetDataObjectName",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetContainer",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetRelativePathSchema",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetTechnicalName",
+						"type": "varchar"
+					},
+					{
+						"name": "Stage",
+						"type": "varchar"
+					},
+					{
+						"name": "Status",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SourceToTargetView"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_Online_adls_Sales_Json')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -220,6 +314,100 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_asql_batch_details')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Azure_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "metadata"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SourceToTargetID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SourceSystemCode",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceSystem",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceDatasetName",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceDataObjectName",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceContainer",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceRelativePathSchema",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceTechnicalName",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetSystemCode",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetSystem",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetDatasetName",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetDataObjectName",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetContainer",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetRelativePathSchema",
+						"type": "varchar"
+					},
+					{
+						"name": "TargetTechnicalName",
+						"type": "varchar"
+					},
+					{
+						"name": "Stage",
+						"type": "varchar"
+					},
+					{
+						"name": "Status",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "BatchRun"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]"
 			]
 		},
 		{
@@ -411,194 +599,6 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "EmailRecipients"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_AQL_source_tartget')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_Azure_sql",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "metadata"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "SourceToTargetID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SourceSystemCode",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceSystem",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceDatasetName",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceDataObjectName",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceContainer",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceRelativePathSchema",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceTechnicalName",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetSystemCode",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetSystem",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetDatasetName",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetDataObjectName",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetContainer",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetRelativePathSchema",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetTechnicalName",
-						"type": "varchar"
-					},
-					{
-						"name": "Stage",
-						"type": "varchar"
-					},
-					{
-						"name": "Status",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "SourceToTargetView"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_asql_batch_details')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_Azure_sql",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "metadata"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "SourceToTargetID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SourceSystemCode",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceSystem",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceDatasetName",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceDataObjectName",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceContainer",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceRelativePathSchema",
-						"type": "varchar"
-					},
-					{
-						"name": "SourceTechnicalName",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetSystemCode",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetSystem",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetDatasetName",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetDataObjectName",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetContainer",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetRelativePathSchema",
-						"type": "varchar"
-					},
-					{
-						"name": "TargetTechnicalName",
-						"type": "varchar"
-					},
-					{
-						"name": "Stage",
-						"type": "varchar"
-					},
-					{
-						"name": "Status",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "BatchRun"
 				}
 			},
 			"dependsOn": [
