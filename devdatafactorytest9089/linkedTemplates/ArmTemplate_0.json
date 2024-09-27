@@ -1277,7 +1277,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL6_log_pipeline_metadata')]",
+			"name": "[concat(parameters('factoryName'), '/PL6_log_pipeline_metadata1_old')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1449,6 +1449,279 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL6_log_pipeline_metadata')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "test_status",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(pipeline().parameters.status,'Success')",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Log pipeline information metada_statusfailed",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[InsertPipelineLog]",
+										"storedProcedureParameters": {
+											"EndTime": {
+												"value": {
+													"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"PipelineID": {
+												"value": {
+													"value": "@pipeline().parameters.PipelineID",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"PipelineName": {
+												"value": {
+													"value": "@pipeline().parameters.pipelineName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunID": {
+												"value": {
+													"value": "@pipeline().parameters.PipelineID",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"SnapshotDate": {
+												"value": {
+													"value": "@pipeline().parameters.snapshotDate",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"SourceToTargetID": {
+												"value": {
+													"value": "@pipeline().parameters.sourcetoTargetID",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"StartTime": {
+												"value": {
+													"value": "@pipeline().parameters.PipelineTiggerTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"Status": {
+												"value": {
+													"value": "@pipeline().parameters.status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"UpdateAt": {
+												"value": {
+													"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_Azure_sql",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "PL_set_status_and_send_messages_copy1",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "Log pipeline information metada_statusfailed",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL3_satatus_setup",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"status": {
+												"value": "@pipeline().parameters.status",
+												"type": "Expression"
+											},
+											"tiggeredPipeline": {
+												"value": "@pipeline().parameters.pipelineName",
+												"type": "Expression"
+											},
+											"systemCode": {
+												"value": "@pipeline().parameters.systemCode",
+												"type": "Expression"
+											},
+											"datasetName": {
+												"value": "@pipeline().parameters.datasetName",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Log pipeline information metadd_sucess",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[InsertPipelineLog]",
+										"storedProcedureParameters": {
+											"EndTime": {
+												"value": {
+													"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"PipelineID": {
+												"value": {
+													"value": "@pipeline().parameters.PipelineID",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"PipelineName": {
+												"value": {
+													"value": "@pipeline().parameters.pipelineName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunID": {
+												"value": {
+													"value": "@pipeline().parameters.PipelineID",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"SnapshotDate": {
+												"value": {
+													"value": "@pipeline().parameters.snapshotDate",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"SourceToTargetID": {
+												"value": {
+													"value": "@pipeline().parameters.sourcetoTargetID",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"StartTime": {
+												"value": {
+													"value": "@pipeline().parameters.PipelineTiggerTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"Status": {
+												"value": {
+													"value": "@pipeline().parameters.status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"UpdateAt": {
+												"value": {
+													"value": "@convertFromUtc(utcNow(),'GMT Standard Time')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_Azure_sql",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"snapshotDate": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"runID": {
+						"type": "string"
+					},
+					"sourcetoTargetID": {
+						"type": "string"
+					},
+					"PipelineTiggerTime": {
+						"type": "string"
+					},
+					"PipelineID": {
+						"type": "string"
+					},
+					"pipelineName": {
+						"type": "string"
+					},
+					"systemCode": {
+						"type": "string"
+					},
+					"datasetName": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]",
+				"[concat(variables('factoryId'), '/pipelines/PL3_satatus_setup')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL7_data_ingestion_json')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1564,7 +1837,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL6_log_pipeline_metadata",
+								"referenceName": "PL6_log_pipeline_metadata1_old",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -1622,7 +1895,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL6_log_pipeline_metadata",
+								"referenceName": "PL6_log_pipeline_metadata1_old",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -1696,7 +1969,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_Online_adls_Sales_Json')]",
 				"[concat(variables('factoryId'), '/datasets/DSdls_dataengineer_sales_Json')]",
-				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata')]"
+				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]"
 			]
 		}
 	]
