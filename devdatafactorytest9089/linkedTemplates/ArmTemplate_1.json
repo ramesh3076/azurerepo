@@ -177,7 +177,8 @@
 						"type": "string"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-09-27T12:11:03Z"
 			},
 			"dependsOn": []
 		},
@@ -424,7 +425,8 @@
 						"defaultValue": "Success"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-09-27T17:44:38Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]"
@@ -786,7 +788,8 @@
 						"defaultValue": "SOURCE_TO_RAW"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-09-28T16:25:14Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]"
@@ -1035,7 +1038,8 @@
 						"defaultValue": "Success"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-09-27T12:11:03Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]"
@@ -1284,7 +1288,8 @@
 						"defaultValue": "Success"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-09-27T12:23:03Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL6_log_pipeline_metadata1_old')]"
@@ -1454,7 +1459,8 @@
 				"folder": {
 					"name": "orchestration"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-09-28T15:49:13Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL11_data_ingestionv6')]"
