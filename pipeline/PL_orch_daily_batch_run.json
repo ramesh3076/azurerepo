@@ -156,6 +156,8 @@
 		"folder": {
 			"name": "orchestration"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-09-28T15:49:13Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

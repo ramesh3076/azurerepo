@@ -348,6 +348,8 @@
 				"defaultValue": "SOURCE_TO_RAW"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-09-28T16:25:14Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

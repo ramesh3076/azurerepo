@@ -234,6 +234,8 @@
 				"defaultValue": "Success"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-09-27T17:44:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
