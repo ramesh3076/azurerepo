@@ -2403,6 +2403,104 @@
 							},
 							"firstRowOnly": false
 						}
+					},
+					{
+						"name": "ForEach batch run information",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup get batch details",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup get batch details').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "PL11_data_ingestionv6_runingestion",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL11_data_ingestionv6",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"SystemCode": {
+												"value": "@variables('v_sytemcode')",
+												"type": "Expression"
+											},
+											"DatasetName": {
+												"value": "@item().datasetName",
+												"type": "Expression"
+											},
+											"runID": {
+												"value": "@item().RunId",
+												"type": "Expression"
+											},
+											"snapshotDate": {
+												"value": "@item().snapshotDate",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "Stored procedure set batch status",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "PL11_data_ingestionv6_runingestion",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[SetBatchStatus]",
+										"storedProcedureParameters": {
+											"PFrequency": {
+												"value": {
+													"value": "@variables('v_frequency')",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"PSystemCode": {
+												"value": {
+													"value": "@variables('v_sytemcode')",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_Azure_sql",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -2424,7 +2522,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_asql_batch_details')]"
+				"[concat(variables('factoryId'), '/datasets/DS_asql_batch_details')]",
+				"[concat(variables('factoryId'), '/pipelines/PL11_data_ingestionv6')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_Azure_sql')]"
 			]
 		},
 		{
