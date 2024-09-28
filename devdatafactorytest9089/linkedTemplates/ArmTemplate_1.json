@@ -454,6 +454,13 @@
 								"type": "AzureSqlSource",
 								"sqlReaderStoredProcedureName": "[[dbo].[GetSourceToTargetInfo]",
 								"storedProcedureParameters": {
+									"Dataset": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.DatasetName",
+											"type": "Expression"
+										}
+									},
 									"SourceSystemCode": {
 										"type": "String",
 										"value": {
