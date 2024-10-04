@@ -31,6 +31,10 @@
 			"type": "string",
 			"defaultValue": "Ramesh"
 		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/dd46e894-7d0f-402a-9d48-d637f64f497d/resourceGroups/databricks_rg/providers/Microsoft.Storage/storageAccounts/sourcestorager"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -75,6 +79,9 @@
 					},
 					"LS_Azure_sql_properties_typeProperties_userName": {
 						"value": "[parameters('LS_Azure_sql_properties_typeProperties_userName')]"
+					},
+					"trigger1_properties_typeProperties_scope": {
+						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
 					}
 				}
 			},
