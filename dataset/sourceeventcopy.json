@@ -1,0 +1,51 @@
+{
+	"name": "sourceeventcopy",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"container": {
+				"type": "string",
+				"defaultValue": "finance"
+			},
+			"filename": {
+				"type": "string",
+				"defaultValue": "department.csv"
+			}
+		},
+		"folder": {
+			"name": "webstore"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().container",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DepartmentCode",
+				"type": "String"
+			},
+			{
+				"name": "DepartmentGroupName",
+				"type": "String"
+			}
+		]
+	}
+}
