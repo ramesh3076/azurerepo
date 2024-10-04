@@ -1,0 +1,34 @@
+{
+	"name": "eventbased tigger",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get container Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
+			}
+		],
+		"parameters": {
+			"sourceContainer": {
+				"type": "string",
+				"defaultValue": "finance"
+			},
+			"fileType": {
+				"type": "string",
+				"defaultValue": "csv"
+			}
+		},
+		"folder": {
+			"name": "orchestration"
+		},
+		"annotations": []
+	}
+}
