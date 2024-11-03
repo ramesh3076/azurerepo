@@ -1,0 +1,9 @@
+{
+	"name": "adframesh34",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6566247a-cc25-4065-8314-5249a098bb5a",
+		"tenantId": "84f1e4ea-8554-43e1-8709-f0b8589ea118"
+	}
+}
