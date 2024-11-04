@@ -1,0 +1,9 @@
+{
+	"name": "dataramesh34",
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "902f83c1-e125-4429-bfc8-546b1853dac7",
+		"tenantId": "84f1e4ea-8554-43e1-8709-f0b8589ea118"
+	}
+}
